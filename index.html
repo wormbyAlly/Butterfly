@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Template Portfolio">
+    <meta name="description" content="Portfolio Malpin Erlangga - Junior Web Developer">
     <title>Malpin - Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -13,7 +13,12 @@
         <!-- Navbar -->
         <nav>
             <div class="logo">BlueShirt</div>
-            <div class="nav-links">
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="nav-links" id="nav-links">
                 <a href="#home">Home</a>
                 <a href="#projects">Projects</a>
                 <a href="#skills">Skills</a>
@@ -28,12 +33,13 @@
             <div class="hero-content">
                 <h1>Halo, saya <br><span style="color: var(--accent-color);">Malpin Erlangga</span></h1>
                 <h4>Web Developer | Creating a website</h4>
-                <a href="#" class="btn btn-primary">Download CV</a>
+                <a href="images/CV.jpeg" class="btn btn-primary" download="CV_Malpin_Erlangga.jpeg">Download CV</a>
             </div>
             <div class="hero-image">
                 <!-- Tempat siswa memasukkan tag <img> nantinya -->
                 <div class="image-placeholder">
-                    [Tempat Foto Profil]
+                    
+                    <img src="images/me.png" alt="Malpin Erlangga">
                 </div>
             </div>
         </section>
@@ -59,7 +65,23 @@
                         <a href="#" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.9rem;">Repository</a>
                     </div>
                 </div>
-                <!-- Project 2 & 3 disembunyikan untuk ringkas, lihat kode asli -->
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <h3 class="project-title">Game Math Pattern Multiplayer</h3>
+                    <p class="project-desc">
+                        <strong>Masalah:</strong> Sulitnya berlatih pola matematika dengan cara yang menyenangkan dan kompetitif<br>
+                        <strong>Solusi:</strong> Membuat game multiplayer interaktif untuk menebak pola matematika secara real-time
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">WebSocket</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.9rem;">Live Demo</a>
+                        <a href="#" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.9rem;">Repository</a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -122,5 +144,65 @@
     <footer>
         <p>&copy; 2026 Malpin Erlangga. All rights reserved.</p>
     </footer>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Menutup menu saat link diklik
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('is-active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Logika Navbar Hilang/Muncul saat Scroll
+        let scrollTimeout;
+        const navbar = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            // Sembunyikan navbar saat scroll
+            navbar.style.opacity = '0';
+            navbar.style.pointerEvents = 'none';
+            navbar.style.transform = 'translateY(-20px)'; // Efek sedikit naik
+            
+            clearTimeout(scrollTimeout);
+            
+            // Cek apakah user sudah mencapai dasar halaman
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
+            
+            if (isAtBottom) {
+                navbar.style.opacity = '1';
+                navbar.style.pointerEvents = 'auto';
+                navbar.style.transform = 'translateY(0)';
+            } else {
+                // Munculkan kembali setelah berhenti scroll selama 3.5 detik
+                scrollTimeout = setTimeout(() => {
+                    navbar.style.opacity = '1';
+                    navbar.style.pointerEvents = 'auto';
+                    navbar.style.transform = 'translateY(0)';
+                }, 1200);
+            }
+        });
+
+        // Animasi section saat di-scroll ke dalam layar
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>
